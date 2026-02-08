@@ -9,8 +9,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-
-
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <img src="{{ asset('adminlte3/dist/img/user2-160x160.jpg') }}" class="user-image img-circle" alt="User Image">

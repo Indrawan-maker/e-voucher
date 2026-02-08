@@ -5,12 +5,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1><i class="fas fa-store mr-1"></i>@yield('title')</h1>
+            <h1><i class="fas fa-store mr-1"></i>{{ $title }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#"><i class="fas fa-home mr-1"></i>Dashboard</a></li>
-              <li class="breadcrumb-item active"><i class="fas fa-store mr-1"></i>@yield('title')</li>
+              <li class="breadcrumb-item active"><i class="fas fa-store mr-1"></i>{{ $title }}</li>
             </ol>
           </div>
         </div>
@@ -26,7 +26,9 @@
           <div class="d-flex justify-content-between">
 
             <div>
-              <button class="btn btn-sm btn-primary"><i class="fas fa-plus mr-1"></i>Tambah Data</button>
+              <button wire:click='create' class="btn btn-sm btn-primary" data-toggle="modal" data-target="#createModal">
+                <i class="fas fa-plus mr-1"></i>Tambah Data
+              </button>
             </div>
             <div class="btn-group dropleft">
               <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -41,11 +43,75 @@
  </div>
   </div>
     <div class="card-body">
-        ISI CONTENT
+      <div class="mb-3 d-flex justify-content-between">
+        <div class="col-2">
+          <select wire:model.live="paginate" class="form-control">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <input wire:model.live="search" type="text" class="form-control" placeholder="Pencarian...">
+        </div>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>
+                  <i class="fas cog">
+
+                  </i>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($user as $item)
+                  <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->nama }}</td>
+                    <td>{{ $item->email }}</td>
+                    @if ($item->role == 'superadmin')
+                    <td>
+                      <span class="badge badge-primary">  
+                        {{ $item->role }}
+                      </span>
+                    </td>
+                    @elseif($item->role == 'admin')
+                    <th>
+                      <span class="badge badge-light">
+                        {{ $item->role }}  
+                      </span>    
+                    </th>
+                    @endif
+                    <td>
+                      <button class="btn btn-sm btn-warning">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+              @endforeach
+            </tbody>
+          </table>
+          {{ $user->links() }}
+        </div>
     </div>
 
     </div>
 
     </section>
+
+    {{-- CREATE MODAL --}}
+    @include('livewire.superadmin.toko.create')
+    {{-- CREATE MODAL --}}
     </div>
 </div>

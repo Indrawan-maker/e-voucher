@@ -68,7 +68,7 @@
           </li>
           <li class="nav-header">ADMIN</li>
           <li class="nav-item">
-            <a wire:navigate href="#" class="nav-link">
+            <a wire:navigate href="{{ route('superadmin.toko.index') }}" class="nav-link">
               <i class="nav-icon fas fa-store"></i>
               <p>
                 RIWAYAT TRANSAKSI
