@@ -15,7 +15,7 @@
                     <label for="nama" class="form-label">Nama Toko</label>
                     <span class="text-danger">*</span>
                     <input wire:model="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
-                        placeholder="fotocopy berkah selalu">
+                        placeholder="Masukkan Nama Toko">
                     @error('nama')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -25,13 +25,13 @@
                     <span class="text-danger">*</span>
 
                     <input wire:model="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                        placeholder="rezarahadian123@gmail.com">
+                        placeholder="Masukkan Email">
                     @error('email')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="row mt-2">
-                    <label for="role" class="from-label">Role</label>
+                    <label for="role" class="form-label">Role</label>
                     <span class="text-danger">*</span>
 
                     <select wire:model="role" id="role" class="form-control @error('role') is-invalid @enderror">
@@ -43,13 +43,13 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-                <div class="row mt-2" x-data="{ show: false }">
-                    <label for="password" class="from-label">Password</label>
-                    <span class="text-danger">*</span>
 
+                <div class="row mt-2" x-data="{ show: false }">
+                    <label for="password" class="form-label">Password</label>
+                    <span class="text-danger">*</span>
                     <input wire:model="password" :type="show ? 'text' : 'password'"
                         class="form-control @error('password') is-invalid @enderror"
-                        placeholder="password">
+                        placeholder="Masukkan Password">
                     <button type="button" class="btn btn-sm text-secondary" @click="show = !show">
                         <span x-text="show ? 'hide password' : 'show password'"></span>
                     </button>
@@ -57,11 +57,12 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+
                 <div class="row mt-2" x-data="{ show: false }">
                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                     <span class="text-danger">*</span>
                     <input wire:model="password_confirmation" :type="show ? 'text' : 'password'"
-                        class="form-control @error('password_confirmation') is-invalid @enderror">
+                        class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Masukkan Password Konfirmasi">
                     <button type="button" class="btn btn-sm text-secondary" @click="show = !show">
                         <span x-text="show ? 'hide password' : 'show password'"></span>
                     </button>

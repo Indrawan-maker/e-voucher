@@ -96,11 +96,12 @@
                                             </th>
                                         @endif
                                         <td>
-                                            <button  wire:click='edit({{ $item->id }})' data-toggle="modal"
-                                data-target="#editModal"class="btn btn-sm btn-warning">
+                                            <button wire:click='edit({{ $item->id }})' data-toggle="modal"
+                                data-target="#editModal" class="btn btn-sm btn-warning">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-danger">
+                                            <button wire:click='confirm({{ $item->id }})' data-toggle="modal"
+                                                data-target="#deleteModal" class="btn btn-sm btn-danger">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -147,5 +148,52 @@
         {{-- EDIT MODAL --}}
         @include('livewire.superadmin.toko.edit')
         {{-- EDIT MODAL --}}
+
+        {{-- CLOSE EDIT MODAL --}}
+        @script
+            <script>
+                $wire.on('closeEditModal', () => {
+                    $('#editModal').modal('hide');
+
+                    Swal.fire({
+                        title: "Sukes!",
+                        text: "Data Berhasil DiUpdate!",
+                        icon: "success"
+                    });
+                });
+
+                  $wire.on('errorWhenCreateUser', () => {
+                    $('#createModal').modal('hide');
+
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: "Terjadi kesalahan saat mengupdate data!",
+                        icon: "error"
+                    });
+                });
+            </script>
+        @endscript
+        {{-- CLOSE EDIT MODAL --}}
+
+        {{-- EDIT MODAL --}}
+        @include('livewire.superadmin.toko.delete')
+        {{-- EDIT MODAL --}}
+
+                {{-- CLOSE DELETE MODAL --}}
+        @script
+            <script>
+                $wire.on('closeDeleteModal', () => {
+                    $('#deleteModal').modal('hide');
+
+                    Swal.fire({
+                        title: "Sukes!",
+                        text: "Data Berhasil Dihapus!",
+                        icon: "success"
+                    });
+                });
+            </script>
+        @endscript
+        {{-- CLOSE DELETE MODAL --}}
+
     </div>
 </div>

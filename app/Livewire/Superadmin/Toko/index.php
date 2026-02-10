@@ -72,6 +72,8 @@ class Index extends Component
             $this->nama = $user->nama;
             $this->email = $user->email;
             $this->role = $user->role;
+            $this->password = '';
+            $this->password_confirmation = '';
             $this->user_id = $user->id;
         }
 
@@ -88,20 +90,35 @@ class Index extends Component
             'email.email'                                   => 'email tidak valid!',
             'role.required'                                 => 'role tidak boleh kosong!',
             'password.required'                             => 'password tidak boleh kosong!',
-            'password.min:8'                                => 'password minimal dari 8 karakter!',
-            'password.confirmed'                            => 'password tidak konfirmasi tidak SAMA!',
+            'password.min'                                => 'password minimal dari 8 karakter!',
+            'password.confirmed'                            => 'password konfirmasi tidak SAMA!',
         ]);
 
-        // try {
-            // $user                           = new User;
-            // $user->nama                     = $this->nama;
-            // $user->email                    = $this->email;
-            // $user->role                     = $this->role;
-            // $user->password                 = Hash::make($this->password);
-            // $user->save();
-            // $this->dispatch('closeCreateModal');
-    //         } catch (\Exception $e) {
-    //     $this->dispatch('errorWhenCreateUser');
-    // }
+        try {
+            $user->nama                     = $this->nama;
+            $user->email                    = $this->email;
+            $user->role                     = $this->role;
+            if(filled($this->password)){
+                $user->password             = Hash::make($this->password);
+            }
+            $user->save();
+            $this->dispatch('closeEditModal');
+            } catch (\Exception $e) {
+                $this->dispatch('errorWhenEditUser');
+                }
+                }
+                
+                public function confirm($id){
+                    $user = User::findOrFail($id);
+                    $this->nama = $user->nama;
+                    $this->email = $user->email;
+            $this->role = $user->role;
+            $this->user_id = $id;
+            }
+            
+            public function destroy($id) {
+                $user = User::findOrFail($id);
+                $user->delete();                
+                $this->dispatch('closeDeleteModal');
         }
 }
