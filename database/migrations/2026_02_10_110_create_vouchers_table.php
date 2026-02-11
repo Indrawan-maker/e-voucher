@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
             $table->string('jenis');
-            $table->decimal('harga', 10, 2);
+            $table->integer('harga');
             $table->timestamps();
         });
     }

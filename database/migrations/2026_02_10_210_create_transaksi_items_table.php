@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('transaksi_id')->constrained();
             $table->foreignId('voucher_id')->constrained();
             $table->integer('qty');
-            $table->decimal('harga', 10, 2);
-            $table->decimal('subtotal', 10, 2);
+            $table->integer('harga');
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }

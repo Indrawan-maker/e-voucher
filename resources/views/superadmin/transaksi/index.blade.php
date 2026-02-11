@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Data Transaksi')
-@section('menuSuperAdminTransaksi', 'active')
+@section('menuSuperAdminToko', 'active')
 
 @section('content')
-@livewire('superadmin.transaksi.index')
+@livewire('superadmin.toko.index')
 @endsection

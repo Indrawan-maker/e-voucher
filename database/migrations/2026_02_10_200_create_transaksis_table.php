@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('toko_id')->constrained();
-            $table->decimal('total', 10, 2);
+            $table->integer('total');
             $table->enum('status', ['belum_lunas', 'dp', 'lunas'])->default('belum_lunas');
             $table->timestamps();
         });

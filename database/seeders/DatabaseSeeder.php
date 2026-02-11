@@ -17,10 +17,16 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(1000)->create();
 
+                $this->call([
+            VoucherSeeder::class,
+        ]);
+
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
 
     }
+
+    
 }

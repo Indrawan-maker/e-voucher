@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <img src="{{ asset('adminlte3/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle">
-      <span class="brand-text font-weight-light">E-Voucher</span>
+      <span class="brand-text font-weight-light">E-VOUCHER</span>
     </a>
 
     <!-- Sidebar -->
@@ -27,6 +27,22 @@
           </li>
           <li class="nav-header">SUPER ADMIN</li>
           <li class="nav-item">
+            <a wire:navigate href="{{ route('superadmin.transaksi.index') }}" class="nav-link @yield('menuSuperAdminTransaksi')">
+              <i class="nav-icon fas fa-exchange-alt"></i>
+              <p>
+                TRANSAKSI
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a wire:navigate href="{{ route('superadmin.pembayaran.index') }}" class="nav-link @yield('menuSuperAdminPembayaran')">
+              <i class="nav-icon fas fa-credit-card"></i>
+              <p>
+                PEMBAYARAN
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a wire:navigate href="{{ route('superadmin.toko.index') }}" class="nav-link @yield('menuSuperAdminToko')">
               <i class="nav-icon fas fa-store"></i>
               <p>
@@ -35,46 +51,14 @@
             </a>
           </li>
           <li class="nav-item">
-            <a wire:navigate href="{{ route('superadmin.transaksi.index') }}" class="nav-link @yield('menuSuperAdminTransaksi')">
+            <a wire:navigate href="{{ route('superadmin.voucher.index') }}" class="nav-link @yield('menuSuperAdminVoucher')">
               <i class="nav-icon fas fa-ticket-alt"></i>
               <p>
-                TRANSAKSI
+                VOUCHER
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a wire:navigate href="{{ route('superadmin.pembayaran.index') }}" class="nav-link @yield('menuSuperAdminPembayaran')">
-              <i class="nav-icon fas fa-money-bill-wave"></i>
-              <p>
-                PEMBAYARAN
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a wire:navigate href="{{ route('superadmin.laporan.index') }}" class="nav-link @yield('menuSuperAdminLaporan')">
-              <i class="nav-icon fas fa-chart-line"></i>
-              <p>
-                LAPORAN
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a wire:navigate href="{{ route('superadmin.pengaturan.index') }}" class="nav-link @yield('menuSuperAdminPengaturan')">
-              <i class="nav-icon fas fa-cog"></i>
-              <p>
-                PENGATURAN
-              </p>
-            </a>
-          </li>
-          <li class="nav-header">ADMIN</li>
-          <li class="nav-item">
-            <a wire:navigate href="{{ route('superadmin.toko.index') }}" class="nav-link">
-              <i class="nav-icon fas fa-store"></i>
-              <p>
-                RIWAYAT TRANSAKSI
-              </p>
-            </a>
-          </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
