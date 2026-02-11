@@ -1,124 +1,127 @@
 <?php 
 namespace App\Livewire\Superadmin\Toko;
 
+use App\Models\Toko;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
+
 class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $paginate = '10';
-    public $search  = '';
-    public $nama, $email, $role, $password, $password_confirmation, $user_id;
+
+    public $paginate = 10;
+    public $search   = '';
+    public $toko_id;
+    public $nama_toko, $email, $alamat, $patokan, $password, $password_confirmation;
+
     public function render()
     {
-        $data = array(
+        return view('livewire.superadmin.toko.index', [
             'title' => 'Data Toko',
-            'user' => User::where('nama', 'like', '%'.$this->search.'%')->orWhere('email', 'like', '%'.$this->search.'%')->orWhere('role', 'like', '%'.$this->search.'%')->orderBy('role', 'asc')->paginate($this->paginate),
-        );
-        return view('livewire.superadmin.toko.index', $data);
+            'toko'  => Toko::where('nama_toko', 'like', '%'.$this->search.'%')
+                ->orWhere('alamat', 'like', '%'.$this->search.'%')
+                ->orWhere('patokan', 'like', '%'.$this->search.'%')
+                ->latest()
+                ->paginate($this->paginate),
+        ]);
     }
 
-    public function create() 
+    public function create()
     {
         $this->resetValidation();
         $this->reset([
-            'nama',
-            'email',
-            'role',
-            'password',
-            'password_confirmation'
+            'toko_id','nama_toko','alamat','patokan',
+            'email','password','password_confirmation'
         ]);
     }
 
     public function store()
     {
         $this->validate([
-            'nama'                              => 'required',
-            'email'                             => 'required|email|unique:users,email',
-            'role'                              => 'required',
-            'password'                          => 'required|min:8|confirmed',
-            'password_confirmation'             => 'required'
-        ],[
-            'nama.required'                                 => 'nama tidak boleh kosong!',
-            'email.required'                                => 'email tidak boleh kosong!',
-            'email.unique'                                => 'Email Sudah Terdaftar!',
-            'email.email'                                   => 'email tidak valid!',
-            'role.required'                                 => 'role tidak boleh kosong!',
-            'password.required'                             => 'password tidak boleh kosong!',
-            'password.min:8'                                => 'password minimal dari 8 karakter!',
-            'password.confirmed'                            => 'password tidak konfirmasi tidak SAMA!',
-            'password_confirmation.required'                => 'konfirmasi password tidak boleh kosong!'
+            'nama_toko' => 'required',
+            'alamat'    => 'required',
+            'patokan'   => 'nullable',
+            'email'     => 'required|email|unique:users,email',
+            'password'  => 'required|min:8|confirmed',
         ]);
 
-        try {
-            $user                           = new User;
-            $user->nama                     = $this->nama;
-            $user->email                    = $this->email;
-            $user->role                     = $this->role;
-            $user->password                 = Hash::make($this->password);
-            $user->save();
-            $this->dispatch('closeCreateModal');
-            } catch (\Exception $e) {
-        $this->dispatch('errorWhenCreateUser');
+        $user = User::create([
+            'nama'     => $this->nama_toko,
+            'email'    => $this->email,
+            'role'     => 'admin',
+            'password' => Hash::make($this->password),
+        ]);
+
+        Toko::create([
+            'user_id'   => $user->id,
+            'nama_toko' => $this->nama_toko,
+            'alamat'    => $this->alamat,
+            'patokan'   => $this->patokan,
+        ]);
+
+        $this->dispatch('closeCreateModal');
     }
-        }
 
-        public function edit($id) {
-            $this->resetValidation();
-            $user = User::findOrFail($id);
-            $this->nama = $user->nama;
-            $this->email = $user->email;
-            $this->role = $user->role;
-            $this->password = '';
-            $this->password_confirmation = '';
-            $this->user_id = $user->id;
-        }
+    public function edit($id)
+    {
+        $this->resetValidation();
+        $toko = Toko::findOrFail($id);
 
-        public function update($id) {
-            $user = User::findOrFail($id);
-            $this->validate([
-            'nama'                              => 'required',
-            'email'                             => 'required|email|unique:users,email,'.$id,
-            'role'                              => 'required',
-            'password'                          => 'nullable|min:8|confirmed',
-        ],[
-            'nama.required'                                 => 'nama tidak boleh kosong!',
-            'email.required'                                => 'email tidak boleh kosong!',
-            'email.email'                                   => 'email tidak valid!',
-            'role.required'                                 => 'role tidak boleh kosong!',
-            'password.required'                             => 'password tidak boleh kosong!',
-            'password.min'                                => 'password minimal dari 8 karakter!',
-            'password.confirmed'                            => 'password konfirmasi tidak SAMA!',
+        $this->toko_id   = $toko->id;
+        $this->nama_toko = $toko->nama_toko;
+        $this->alamat    = $toko->alamat;
+        $this->patokan   = $toko->patokan;
+        $this->email     = $toko->user->email;
+        $this->password  = '';
+        $this->password_confirmation = '';
+    }
+
+    public function update()
+    {
+        $toko = Toko::findOrFail($this->toko_id);
+        $user = $toko->user;
+
+        $this->validate([
+            'nama_toko' => 'required',
+            'alamat'    => 'required',
+            'patokan'   => 'nullable',
+            'email'     => 'required|email|unique:users,email,'.$user->id,
+            'password'  => 'nullable|min:8|confirmed',
         ]);
 
-        try {
-            $user->nama                     = $this->nama;
-            $user->email                    = $this->email;
-            $user->role                     = $this->role;
-            if(filled($this->password)){
-                $user->password             = Hash::make($this->password);
-            }
-            $user->save();
-            $this->dispatch('closeEditModal');
-            } catch (\Exception $e) {
-                $this->dispatch('errorWhenEditUser');
-                }
-                }
-                
-                public function confirm($id){
-                    $user = User::findOrFail($id);
-                    $this->nama = $user->nama;
-                    $this->email = $user->email;
-            $this->role = $user->role;
-            $this->user_id = $id;
-            }
-            
-            public function destroy($id) {
-                $user = User::findOrFail($id);
-                $user->delete();                
-                $this->dispatch('closeDeleteModal');
+        $toko->update([
+            'nama_toko' => $this->nama_toko,
+            'alamat'    => $this->alamat,
+            'patokan'   => $this->patokan,
+        ]);
+
+        $user->email = $this->email;
+        if ($this->password) {
+            $user->password = Hash::make($this->password);
         }
+        $user->save();
+
+        $this->dispatch('closeEditModal');
+    }
+
+    public function confirm($id)
+    {
+        $toko = Toko::findOrFail($id);
+
+        $this->toko_id   = $toko->id;
+        $this->nama_toko = $toko->nama_toko;
+        $this->email     = $toko->user->email;
+    }
+
+    public function destroy()
+    {
+        $toko = Toko::findOrFail($this->toko_id);
+        $toko->delete();
+        $toko->user->delete();
+
+        $this->dispatch('closeDeleteModal');
+    }
 }

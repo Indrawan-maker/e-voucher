@@ -13,10 +13,10 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-4">
-                        Nama
+                        Nama Toko
                     </div>
                     <div class="col-8">
-                        : {{ $nama }}
+                        : {{ $nama_toko }}
                     </div>
                 </div>
                 <div class="row">
@@ -27,24 +27,11 @@
                         : {{ $email }}
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4">
-                        Role
-                    </div>
-                    <div class="col-8">
-                        : 
-                        @if ($role == 'superadmin')
-                        <span class="badge badge-primary">{{ $role }}</span>
-                        @else 
-                        <span class="badge badge-light">{{ $role }}</span>
-                        @endif
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i
                         class="fas fa-times mr-1"></i>Tutup</button>
-                <button wire:click="destroy({{ $user_id }})" type="button" class="btn btn-danger  btn-sm"><i
+                <button wire:click="destroy({{ $toko_id }})" type="button" class="btn btn-danger  btn-sm"><i
                         class="fas fa-trash mr-1"></i>HAPUS</button>
             </div>
         </div>

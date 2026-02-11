@@ -12,11 +12,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="nama" class="form-label">Nama Toko</label>
+                    <label for="nama_toko" class="form-label">Nama Toko</label>
                     <span class="text-danger">*</span>
-                    <input wire:model="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
+                    <input wire:model="nama_toko" type="text" class="form-control @error('nama_toko') is-invalid @enderror"
                         placeholder="Masukkan Nama Toko">
-                    @error('nama')
+                    @error('nama_toko')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -31,18 +31,26 @@
                     @enderror
                 </div>
                 <div class="row mt-2">
-                    <label for="role" class="from-label">Role</label>
+                    <label for="alamat" class="form-label">Alamat</label>
                     <span class="text-danger">*</span>
 
-                    <select wire:model="role" id="role" class="form-control @error('role') is-invalid @enderror">
-                        <option selected>--PILIH ROLE--</option>
-                        <option value="superadmin">Super Admin</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                    @error('role')
+                    <input wire:model="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror"
+                        placeholder="Masukkan Alamat">
+                    @error('alamat')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                <div class="row mt-2">
+                    <label for="patokan" class="form-label">Patokan</label>
+                    <span class="text-danger">*</span>
+
+                    <input wire:model="patokan" type="text" class="form-control @error('patokan') is-invalid @enderror"
+                        placeholder="Masukkan Patokan">
+                    @error('patokan')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
                 <div class="row mt-2" x-data="{ show: false }">
                     <label for="password" class="form-label">Password</label>
                     <span class="text-danger">*</span>
@@ -73,7 +81,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i
                         class="fas fa-times mr-1"></i>Tutup</button>
-                <button wire:click="update({{ $user_id }})" type="button" class="btn btn-warning btn-sm"><i
+                <button wire:click="update({{ $toko_id }})" type="button" class="btn btn-warning btn-sm"><i
                         class="fas fa-edit mr-1"></i>Update</button>
             </div>
         </div>
