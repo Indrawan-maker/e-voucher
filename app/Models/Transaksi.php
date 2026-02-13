@@ -6,12 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
-    protected $fillable = [
-        'toko_id',
-        'total',
-        'dp',
-        'status_pembayaran'
-    ];
+    protected $fillable = ['toko_id', 'total', 'status'];
 
     public function toko()
     {
@@ -26,5 +21,17 @@ class Transaksi extends Model
     public function pembayarans()
     {
         return $this->hasMany(Pembayaran::class);
+    }
+
+    // Helper: total yang sudah dibayar
+    public function totalPembayaran()
+    {
+        return $this->pembayarans()->sum('jumlah_bayar');
+    }
+
+    // Helper: sisa yang belum dibayar
+    public function sisaPembayaran()
+    {
+        return $this->total - $this->totalPembayaran();
     }
 }

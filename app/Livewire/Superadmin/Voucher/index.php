@@ -30,9 +30,9 @@ class Index extends Component
             'jenis'                              => 'required|unique:vouchers,jenis',
             'harga'                             => 'required',
         ],[
-            'jenis.required'                                => 'Jenis Tidak Boleh Kosong!',
-            'jenis.unique'                                => 'Jenis Voucher Sudah Terdaftar!',
-            'harga.required'                                 => 'harga tidak boleh kosong!',
+            'jenis.required'                                => 'Varian Voucher Tidak Boleh Kosong!',
+            'jenis.unique'                                => 'Varian Voucher Sudah Terdaftar!',
+            'harga.required'                                 => 'Harga tidak boleh kosong!',
         ]);
 
         try {
@@ -60,7 +60,7 @@ class Index extends Component
             'jenis'                             => 'required|unique:vouchers,jenis,'.$id,
             'harga'                              => 'required',
         ],[
-            'jenis.required'                                => 'Jenis Voucher Tidak Boleh Kosong!',
+            'jenis.required'                                => 'Voucher Tidak Boleh Kosong!',
             'harga.required'                                 => 'Harga Tidak Boleh Kosong!',
         ]);
 

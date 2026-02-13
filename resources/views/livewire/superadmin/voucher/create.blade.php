@@ -12,16 +12,16 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="jenis" class="form-label">jenis Toko</label>
+                    <label for="jenis" class="form-label">Varian Voucher</label>
                     <span class="text-danger">*</span>
                     <input wire:model="jenis" type="text" class="form-control @error('jenis') is-invalid @enderror"
-                        placeholder="Masukkan jenis Toko">
+                        placeholder="Masukkan Varian Voucher">
                     @error('jenis')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="row mt-2">
-                    <label for="harga" class="form-label">harga</label>
+                    <label for="harga" class="form-label">Harga</label>
                     <span class="text-danger">*</span>
 
                     <input wire:model="harga" type="harga" class="form-control @error('harga') is-invalid @enderror"

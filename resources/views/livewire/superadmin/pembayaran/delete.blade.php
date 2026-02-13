@@ -11,7 +11,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus transaksi untuk toko <strong>{{ $toko_id }}</strong>?</p>
+                <p>Apakah Anda yakin ingin menghapus pembayaran untuk toko <strong>{{ $selected_transaksi }}</strong>?</p>
+                <p class="mb-1"><strong>Jumlah Bayar:</strong> Rp {{ number_format($jumlah_bayar, 0, ',', '.') }}</p>
                 <p class="text-danger"><i class="fas fa-exclamation-triangle mr-1"></i>Data yang dihapus tidak dapat dikembalikan!</p>
             </div>
             <div class="modal-footer">
