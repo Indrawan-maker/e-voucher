@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    public function toko()
+    {
+        return $this->hasOne(Toko::class);
+    }
 
     /**
      * The attributes that are mass assignable.

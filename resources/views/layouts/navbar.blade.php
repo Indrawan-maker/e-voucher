@@ -20,7 +20,7 @@
             <img src="{{ asset('adminlte3/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
 
             <p>
-              Semar  - Web Developer
+              {{ auth()->user()->nama }}
               <div>
                 <span class="badge badge-success">Admin</span>
               </div>
@@ -29,9 +29,12 @@
 
           <!-- Menu Footer-->
           <li class="user-footer">
-            <a href="#" class="btn btn-sm btn-danger btn-flat float-right">
+            <form method="POST" action="{{ route('logout') }}" style="display: inline">
+              @csrf
+              <button type="submit" class="btn btn-sm btn-danger btn-flat float-right">
                 <i class="fas fa-sign-out-alt"></i>
-                Logout</a>
+                Logout</button>
+              </form>
           </li>
         </ul>
       </li>
