@@ -154,6 +154,11 @@
                 Swal.fire("Gagal!", "Terjadi kesalahan saat mengupdate transaksi!", "error");
             });
 
+            $wire.on('errorWhenDeleteTransaksi', () => {
+                $('#editModal').modal('hide');
+                Swal.fire("Gagal!", "Transaksi yang sudah lunas tidak bisa dihapus!", "error");
+            });
+
             // DELETE
             $wire.on('closeDeleteModal', () => {
                 $('#deleteModal').modal('hide');

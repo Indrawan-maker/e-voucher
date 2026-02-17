@@ -28,6 +28,7 @@
                                 </option>
                             @endforeach
                         </select>
+                        <small class="text-muted">Jumlah transaksi belum lunas: {{ count($transaksis) }}</small>
                         @error('transaksi_id')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror

@@ -15,7 +15,7 @@
         @if(auth()->user()->role === 'superadmin')
         <!-- MENU SUPERADMIN -->
         <li class="nav-item">
-          <a wire:navigate href="#" class="nav-link">
+          <a wire:navigate href="{{ route('superadmin.dashboard.index') }}" class="nav-link">
             <i class="nav-icon fas fa-home"></i>
             <p>Dashboard</p>
           </a>

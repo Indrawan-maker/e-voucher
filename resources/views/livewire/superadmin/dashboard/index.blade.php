@@ -12,12 +12,25 @@
 
         <section class="content">
             <div class="row">
-                <!-- Total Hutang -->
+                <!-- Total Omzet -->
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>Rp {{ number_format($totalOmzet, 0, ',', '.') }}</h3>
+                            <p>Total Omzet</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Piutang -->
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>Rp {{ number_format($totalHutang, 0, ',', '.') }}</h3>
-                            <p>Total Hutang</p>
+                            <h3>Rp {{ number_format($totalPiutang, 0, ',', '.') }}</h3>
+                            <p>Total Piutang</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-exclamation-triangle"></i>
@@ -25,41 +38,28 @@
                     </div>
                 </div>
 
-                <!-- Riwayat Voucher -->
+                <!-- Transaksi Bulan Ini -->
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{ $totalVoucher }}</h3>
-                            <p>Total Voucher Dibeli</p>
+                            <h3>{{ $transaksiBulanIni }}</h3>
+                            <p>Transaksi Bulan Ini</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-ticket-alt"></i>
+                            <i class="fas fa-calendar-alt"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- Riwayat Pembayaran -->
+                <!-- Untung Bersih -->
                 <div class="col-lg-3 col-6">
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>Rp {{ number_format($totalPembayaran, 0, ',', '.') }}</h3>
-                            <p>Total Pembayaran</p>
+                            <h3>Rp {{ number_format($untungBersih, 0, ',', '.') }}</h3>
+                            <p>Total Pemasukan</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Status -->
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-primary">
-                        <div class="inner">
-                            <h3>{{ $transaksiLunas }} / {{ $transaksiBelumLunas }}</h3>
-                            <p>Lunas / Belum Lunas</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-money-bill-wave"></i>
                         </div>
                     </div>
                 </div>

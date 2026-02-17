@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     
     // Routes Superadmin (hanya role superadmin)
     Route::middleware('role:superadmin')->prefix('superadmin')->group(function () {
+        Route::view('dashboard', 'superadmin.dashboard.index')->name('superadmin.dashboard.index');
         Route::view('toko', 'superadmin.toko.index')->name('superadmin.toko.index');
         Route::view('voucher', 'superadmin.voucher.index')->name('superadmin.voucher.index');
         Route::view('transaksi', 'superadmin.transaksi.index')->name('superadmin.transaksi.index');

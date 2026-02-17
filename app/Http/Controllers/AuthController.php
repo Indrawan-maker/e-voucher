@@ -12,7 +12,7 @@ public function showLogin()
     if (Auth::check()) {
 
         if (Auth::user()->role === 'superadmin') {
-            return redirect('/superadmin/transaksi');
+            return redirect('/superadmin/dashboard');
         }
 
         if (Auth::user()->role === 'admin') {

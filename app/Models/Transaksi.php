@@ -26,6 +26,11 @@ class Transaksi extends Model
     // Helper: total yang sudah dibayar
     public function totalPembayaran()
     {
+        // Cek apakah relasi sudah di-load
+        if ($this->relationLoaded('pembayarans')) {
+            return $this->pembayarans->sum('jumlah_bayar');
+        }
+        // Kalau belum, query
         return $this->pembayarans()->sum('jumlah_bayar');
     }
 

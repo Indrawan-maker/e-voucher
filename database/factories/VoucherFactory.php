@@ -10,10 +10,10 @@ class VoucherFactory extends Factory
     {
         return [
             'jenis' => $this->faker->randomElement([
-                'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'
+                '12 jam', '24 jam'
             ]),
             'harga' => $this->faker->randomElement([
-                50000, 100000, 150000, 200000, 500000
+                50000, 100000
             ]),
         ];
     }

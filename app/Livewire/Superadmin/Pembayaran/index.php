@@ -34,9 +34,10 @@ class Index extends Component
                 })
                 ->latest()
                 ->paginate($this->paginate),
-            'transaksis'  => Transaksi::with('toko')
-                ->where('status', '!=', 'lunas')
-                ->get(),
+           'transaksis'  => Transaksi::with('toko')
+    ->whereIn('status', ['belum_lunas', 'dp'])
+    ->orderBy('created_at', 'desc')
+    ->get(),
         ]);
     }
 
@@ -72,51 +73,54 @@ class Index extends Component
             $this->sisa_pembayaran    = 0;
         }
     }
+public function store()
+{
+    $this->validate([
+        'transaksi_id' => 'required|exists:transaksis,id',
+        'jumlah_bayar' => 'required|integer|min:1',
+    ], [
+        'transaksi_id.required' => 'Transaksi harus dipilih',
+        'jumlah_bayar.required' => 'Jumlah bayar harus diisi',
+        'jumlah_bayar.integer'  => 'Jumlah bayar harus berupa angka',
+        'jumlah_bayar.min'      => 'Jumlah bayar minimal 1',
+    ]);
 
-    public function store()
-    {
-        $this->validate([
-            'transaksi_id' => 'required|exists:transaksis,id',
-            'jumlah_bayar' => 'required|integer|min:1',
-        ], [
-            'transaksi_id.required' => 'Transaksi harus dipilih',
-            'jumlah_bayar.required' => 'Jumlah bayar harus diisi',
-            'jumlah_bayar.integer'  => 'Jumlah bayar harus berupa angka',
-            'jumlah_bayar.min'      => 'Jumlah bayar minimal 1',
-        ]);
-
-        $transaksi = Transaksi::find($this->transaksi_id);
-        
-        if (!$transaksi) {
-            $this->addError('transaksi_id', 'Transaksi tidak ditemukan!');
-            return;
-        }
-
-        $sisaPembayaran = $transaksi->sisaPembayaran();
-
-        // Validasi: pembayaran tidak boleh melebihi sisa
-        if ($this->jumlah_bayar > $sisaPembayaran) {
-            $this->addError('jumlah_bayar', 'Jumlah bayar melebihi sisa tagihan!');
-            return;
-        }
-
-        // Simpan pembayaran
-        Pembayaran::create([
-            'transaksi_id' => $this->transaksi_id,
-            'jumlah_bayar' => $this->jumlah_bayar
-        ]);
-
-        // Update status transaksi
-        $totalDibayar = $transaksi->totalPembayaran() + $this->jumlah_bayar;
-        
-        if ($totalDibayar >= $transaksi->total) {
-            $transaksi->update(['status' => 'lunas']);
-        } elseif ($totalDibayar > 0 && $totalDibayar < $transaksi->total) {
-            $transaksi->update(['status' => 'dp']);
-        }
-
-        $this->dispatch('closeCreateModal');
+    $transaksi = Transaksi::find($this->transaksi_id);
+    
+    if (!$transaksi) {
+        $this->addError('transaksi_id', 'Transaksi tidak ditemukan!');
+        return;
     }
+
+    $sisaPembayaran = $transaksi->sisaPembayaran();
+
+    // Validasi: pembayaran tidak boleh melebihi sisa
+    if ($this->jumlah_bayar > $sisaPembayaran) {
+        $this->addError('jumlah_bayar', 'Jumlah bayar melebihi sisa tagihan!');
+        return;
+    }
+
+    // Simpan pembayaran
+    Pembayaran::create([
+        'transaksi_id' => $this->transaksi_id,
+        'jumlah_bayar' => $this->jumlah_bayar
+    ]);
+
+    // PERBAIKAN: Refresh dulu sebelum ambil total
+    $transaksi->refresh();
+    $totalDibayar = $transaksi->totalPembayaran();  // ← Langsung ambil, JANGAN + $this->jumlah_bayar
+    
+    // Update status berdasarkan total yang sudah dibayar
+    if ($totalDibayar >= $transaksi->total) {
+        $transaksi->update(['status' => 'lunas']);
+    } elseif ($totalDibayar > 0) {
+        $transaksi->update(['status' => 'dp']);
+    } else {
+        $transaksi->update(['status' => 'belum_lunas']);
+    }
+
+    $this->dispatch('closeCreateModal');
+}
 
     public function edit($id)
     {
@@ -127,11 +131,13 @@ class Index extends Component
         $this->transaksi_id       = $pembayaran->transaksi_id;
         $this->jumlah_bayar       = $pembayaran->jumlah_bayar;
         
-        // Info transaksi
-        $this->selected_transaksi = $pembayaran->transaksi->toko->nama_toko;
-        $this->total_transaksi    = $pembayaran->transaksi->total;
-        $this->total_dibayar      = $pembayaran->transaksi->totalPembayaran();
-        $this->sisa_pembayaran    = $pembayaran->transaksi->sisaPembayaran() + $pembayaran->jumlah_bayar;
+        // Info transaksi (hitung ulang sisa jika pembayaran ini dihapus)
+        $transaksi = $pembayaran->transaksi;
+        $this->selected_transaksi = $transaksi->toko->nama_toko;
+        $this->total_transaksi    = $transaksi->total;
+        $this->total_dibayar      = $transaksi->totalPembayaran();
+        // Sisa sebelum edit = sisa sekarang + pembayaran yang sedang diedit
+        $this->sisa_pembayaran    = $transaksi->sisaPembayaran() + $pembayaran->jumlah_bayar;
     }
 
     public function update()
@@ -144,7 +150,7 @@ class Index extends Component
         $pembayaran = Pembayaran::findOrFail($this->pembayaran_id);
         $transaksi = $pembayaran->transaksi;
         
-        // Hitung sisa setelah dikurangi pembayaran ini
+        // Hitung sisa setelah dikurangi pembayaran lama
         $sisaPembayaran = $transaksi->sisaPembayaran() + $pembayaran->jumlah_bayar;
 
         if ($this->jumlah_bayar > $sisaPembayaran) {
@@ -152,16 +158,19 @@ class Index extends Component
             return;
         }
 
+        // Update pembayaran
         $pembayaran->update([
             'jumlah_bayar' => $this->jumlah_bayar
         ]);
 
-        // Update status transaksi
+        // PERBAIKAN: Refresh transaksi untuk dapat total pembayaran terbaru
+        $transaksi->refresh();
         $totalDibayar = $transaksi->totalPembayaran();
         
+        // Update status
         if ($totalDibayar >= $transaksi->total) {
             $transaksi->update(['status' => 'lunas']);
-        } elseif ($totalDibayar > 0 && $totalDibayar < $transaksi->total) {
+        } elseif ($totalDibayar > 0) {
             $transaksi->update(['status' => 'dp']);
         } else {
             $transaksi->update(['status' => 'belum_lunas']);
@@ -184,14 +193,17 @@ class Index extends Component
         $pembayaran = Pembayaran::findOrFail($this->pembayaran_id);
         $transaksi = $pembayaran->transaksi;
         
+        // Hapus pembayaran
         $pembayaran->delete();
 
-        // Update status transaksi setelah hapus
+        // PERBAIKAN: Refresh transaksi untuk dapat total pembayaran terbaru
+        $transaksi->refresh();
         $totalDibayar = $transaksi->totalPembayaran();
         
+        // Update status setelah hapus
         if ($totalDibayar >= $transaksi->total) {
             $transaksi->update(['status' => 'lunas']);
-        } elseif ($totalDibayar > 0 && $totalDibayar < $transaksi->total) {
+        } elseif ($totalDibayar > 0) {
             $transaksi->update(['status' => 'dp']);
         } else {
             $transaksi->update(['status' => 'belum_lunas']);
