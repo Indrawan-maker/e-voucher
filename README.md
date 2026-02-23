@@ -15,8 +15,9 @@ Adalah sistem voucher wifi yang bisa track setiap transaksi dan pembayaran, keun
 
 role : superadmin, admin
 tambah role admin : untuk menambah toko yang membeli langganan
-CRUD voucher
-CRUD role
+elakukan transaksi berdasarkan toko yang sudah dibuat
+melakukan pembayaran berdasarkan transaksi yang dilakukan
+menampilkan detail transaksi sebeleum melakukan pembayaran untuk menghindari kesalahan
 
 
 
