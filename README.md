@@ -18,13 +18,13 @@ Adalah sistem voucher wifi yang bisa track setiap transaksi dan pembayaran, term
 ## feature
 <br>
 
-login : role superadmin, role admin (role admin dibuat oleh superadmin)<br>
-tambah role admin : untuk menambah toko yang membeli langganan voucher<br>
-penghitungan otomatis berdasarkan quantity voucher yang dipilih<br>
-melakukan transaksi berdasarkan toko yang sudah dibuat<br>
-melakukan pembayaran berdasarkan transaksi yang dilakukan<br>
-menampilkan detail transaksi sebeleum melakukan pembayaran untuk menghindari kesalahan<br>
-hide & show password menggunakan state livewire
+- login : role superadmin, role admin (role admin dibuat oleh superadmin)<br>
+- tambah role admin : untuk menambah toko yang membeli langganan voucher<br>
+- penghitungan otomatis berdasarkan quantity voucher yang dipilih<br>
+- melakukan transaksi berdasarkan toko yang sudah dibuat<br>
+- melakukan pembayaran berdasarkan transaksi yang dilakukan<br>
+- menampilkan detail transaksi sebeleum melakukan pembayaran untuk menghindari kesalahan<br>
+- hide & show password menggunakan state livewire
 
 <br>
 
@@ -34,7 +34,7 @@ demo video : https://drive.google.com/file/d/1faxj_plKk5sjx6gi4pGIYS5sK-tvImXs/v
 ## tech stack
 
 - laravel 12 <br>
-- php 8.x
+- php 8.x <br>
 - livewire 4 (otomatis akan menginstall alphinejs) <br>
 - bootsrap <br>
 - adminLTE 3 <br>
