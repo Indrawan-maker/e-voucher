@@ -9,7 +9,7 @@
 
 ## E- Voucher
 <br>
-Adalah sistem voucher wifi yang bisa track setiap transaksi dan pembayaran, keuntungan hutang, dll
+Adalah sistem voucher wifi yang bisa track setiap transaksi dan pembayaran, termasuk menghilangkan kesalahan pencatatan dll.
 <br>
 
 
