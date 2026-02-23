@@ -13,11 +13,13 @@ Adalah sistem voucher wifi yang bisa track setiap transaksi dan pembayaran, keun
 
 ## feature
 
-role : superadmin, admin
+login : role superadmin, role admin (role admin dibuat oleh superadmin)
 tambah role admin : untuk menambah toko yang membeli langganan
-elakukan transaksi berdasarkan toko yang sudah dibuat
+penghitungan otomatis berdasarkan quantity voucher yang dipilih
+melakukan transaksi berdasarkan toko yang sudah dibuat
 melakukan pembayaran berdasarkan transaksi yang dilakukan
 menampilkan detail transaksi sebeleum melakukan pembayaran untuk menghindari kesalahan
+hide & show password menggunakan state livewire
 
 
 
