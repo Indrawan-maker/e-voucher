@@ -91,7 +91,7 @@ class Index extends Component
                 $this->items[$index]['subtotal'] = $voucher->harga * $this->items[$index]['qty'];
             }
         }
-
+        
         if ($field == 'qty') {
             $this->items[$index]['subtotal'] = $this->items[$index]['harga'] * $value;
         }
