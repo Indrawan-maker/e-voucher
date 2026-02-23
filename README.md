@@ -8,29 +8,47 @@
 </p>
 
 ## E- Voucher
-
+<br>
 Adalah sistem voucher wifi yang bisa track setiap transaksi dan pembayaran, keuntungan hutang, dll
+<br>
+
+
+
 
 ## feature
+<br>
 
-login : role superadmin, role admin (role admin dibuat oleh superadmin)
-tambah role admin : untuk menambah toko yang membeli langganan
-penghitungan otomatis berdasarkan quantity voucher yang dipilih
-melakukan transaksi berdasarkan toko yang sudah dibuat
-melakukan pembayaran berdasarkan transaksi yang dilakukan
-menampilkan detail transaksi sebeleum melakukan pembayaran untuk menghindari kesalahan
+login : role superadmin, role admin (role admin dibuat oleh superadmin)<br>
+tambah role admin : untuk menambah toko yang membeli langganan voucher<br>
+penghitungan otomatis berdasarkan quantity voucher yang dipilih<br>
+melakukan transaksi berdasarkan toko yang sudah dibuat<br>
+melakukan pembayaran berdasarkan transaksi yang dilakukan<br>
+menampilkan detail transaksi sebeleum melakukan pembayaran untuk menghindari kesalahan<br>
 hide & show password menggunakan state livewire
 
+<br>
+
+demo video : https://drive.google.com/file/d/1faxj_plKk5sjx6gi4pGIYS5sK-tvImXs/view?usp=drive_link<br>
 
 
-demo video : https://drive.google.com/file/d/1faxj_plKk5sjx6gi4pGIYS5sK-tvImXs/view?usp=drive_link
+## tech stack
+
+- laravel 12 <br>
+- php 8.x
+- livewire 4 (otomatis akan menginstall alphinejs) <br>
+- bootsrap <br>
+- adminLTE 3 <br>
 
 
-sesuaikan env : 
+
+contoh env (sesuaikan dengan env anda) : <br>
 
 DB_CONNECTION=mysql
+<br>
 DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=e-voucher
-DB_USERNAME=root
-DB_PASSWORD=
+<br>
+DB_PORT=3306<br>
+DB_DATABASE=e-voucher<br>
+DB_USERNAME=root<br>
+DB_PASSWORD=<br>
+
